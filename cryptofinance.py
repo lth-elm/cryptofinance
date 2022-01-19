@@ -23,15 +23,23 @@ def attack_length(time):
 
 st.title('Cryptofinance')
 
+st.sidebar.image("logo/Logo_ESILV_170x170.png", width=100)
 st.sidebar.title('Simulation')
 simulation = st.sidebar.selectbox('Choose the simulation you want to run.', ('Home', 'Proof of Work', 'Attack 1 : One plus two', 'Attack 2 : Selfish mining', 'Attack 3 : Double spending'))
 st.header(simulation)
 
 
 if simulation == "Home":
-    st.subheader('Subheader ?')
-    st.write('Describe the project...')
+    st.subheader('Description')
+    """
+    This project aims to simulate concepts related to **bitcoin mining** and its notion of **proof of work**
+    but also **attack strategies** in which our interest is to visualize the critical levels of **profitability** 
+    and the **hash power** needed to achieve it.
 
+    The results are from research papers by teacher and researcher Cyril Grunspan (Da Vinci Research Center) and Ricardo Perez-Marco : *<links>*
+
+    The understanding of this paper and its visual presentation in this website was conducted by *<Laith El Mershati>*, student of the **Enginnering School De Vinci Paris** (ESILV), and is part of a school project.
+    """
 
 if simulation == "Proof of Work":
     st.subheader('Subheader ?')
