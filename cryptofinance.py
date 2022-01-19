@@ -1,4 +1,6 @@
+import csv
 import json
+from this import d
 import requests
 import numpy as np
 import streamlit as st
@@ -29,6 +31,7 @@ simulation = st.sidebar.selectbox('Choose the simulation you want to run.', ('Ho
 st.header(simulation)
 
 
+
 if simulation == "Home":
     st.subheader('Description')
     """
@@ -36,15 +39,108 @@ if simulation == "Home":
     but also **attack strategies** in which our interest is to visualize the critical levels of **profitability** 
     and the **hash power** needed to achieve it.
 
-    The results are from research papers by teacher and researcher Cyril Grunspan (Da Vinci Research Center) and Ricardo Perez-Marco : *<links>*
+    The results are from research papers by teacher and researcher Cyril Grunspan (Da Vinci Research Center) 
+    and Ricardo Perez-Marco : *<links>*
 
-    The understanding of this paper and its visual presentation in this website was conducted by *<Laith El Mershati>*, student of the **Enginnering School De Vinci Paris** (ESILV), and is part of a school project.
+    The understanding of this paper and its visual presentation in this website was conducted by *<Laith El Mershati>*, 
+    student of the **Enginnering School De Vinci Paris** (ESILV), and is part of a school project.
     """
 
+
+
+
 if simulation == "Proof of Work":
-    st.subheader('Subheader ?')
-    st.write('Add description...')
-    st.image('pow/pow_output.png')
+    st.subheader('Mining time')
+
+    """
+    We are going to conduct a proof of work **mining** where we want to see how the **average time** needed to 
+    find the solution evolves with the **difficulty adjustment**. 
+    
+    For that we will be running *<that code>* which from this challenge ```5JskLFx82fGh7eFP3c12XXX``` will add a 
+    generated random nonce and then hash the whole new variable until we the target of *x* 0's at the beginning 
+    of the new hash is obtained.
+    """
+
+    with open('pow/pow_time_values.csv', newline='') as f:
+        reader = csv.reader(f)
+        data_time = list(reader)[0]
+    
+    data_time.remove('')
+    for i in range(len(data_time)):
+        data_time[i] = float(data_time[i])
+
+    targets = list(range(1, len(data_time) + 1, 1))
+
+    fig, ax = plt.subplots(figsize=(5, 3))
+    plt.title('Time required to find the hash solution according to target', fontsize=9)
+    ax.plot(targets, data_time, '-ok')
+    ax.set_xlabel('0 target', fontsize=8)
+    ax.set_ylabel('Time (s)', fontsize=8)
+    ax.legend()
+    st.pyplot(fig=plt)
+
+    st.write("Here is a better reading of the above values.")
+    st.write(data_time)
+
+    """
+    One can easily notice an exponential trend between the number of 0's required before the hash 
+    and the time needed to achieve it, which tends to increase exponentially.
+    """
+
+    st.subheader('Exponential law')
+
+    """
+    Let's repeat the same task 10 000 times but this time with a target of 3 only, 
+    here is a distribution of the time it took for each execution. (Code at this *<link>*)
+    """
+
+    with open('pow/expow_distribution_values.csv', newline='') as f:
+        reader = csv.reader(f)
+        time_result = list(reader)[0]
+    
+    for i in range(len(time_result)):
+        time_result[i] = float(time_result[i])
+
+    x = [i for i in range(1, len(time_result)+1, 1)]
+    fig, ax = plt.subplots(figsize=(5, 3))
+    plt.title('Distribution of the time took to find the hash solution for all the executions', fontsize=9)
+    ax.plot(x, time_result, '-ok', color='darkblue', markersize=2)
+    ax.set_xlabel('Executions', fontsize=8)
+    ax.set_ylabel('Time (s)', fontsize=8)
+    ax.legend()
+    st.pyplot(fig=plt)
+
+    """
+    Obviously at a certain point it becomes more unusual that the search time exceeds a certain threshold.
+
+    From this we can then deduce the probability of meeting the target after a certain time. 
+    The computations are available in the code, the given results reflect in an obvious way an exponential law, 
+    according to the research paper the *lambda* parameter has a value of 1/600.
+    """
+
+    base = time_result[0]
+    end = time_result[-1]
+    interval = end - base
+    steps = interval/(len(time_result)/2)
+
+    rangeprob = [i for i in np.arange(base, end, steps)]
+    rangeprob.pop()
+    probr = []
+
+    for i in rangeprob:
+        result = [x for x in time_result if x >= i]
+        probr.append(len(result)/10000)
+
+    fig, ax = plt.subplots(figsize=(5, 3))
+    plt.title('Probability to find the target after x seconds', fontsize=9)
+    ax.plot(rangeprob, probr, '-ok', color='darkred', markersize=2)
+    ax.set_xlabel('Time (s)', fontsize=8)
+    ax.set_ylabel('Probability', fontsize=8)
+    ax.legend()
+    st.pyplot(fig=plt)
+
+    st.write("We can try and confirm the *lambda* parameter value with a study.")
+
 
 
 if simulation == "Attack 1 : One plus two":
@@ -73,6 +169,7 @@ if simulation == "Attack 1 : One plus two":
     ax.legend()
 
     st.pyplot(fig=plt)
+
 
 
 if simulation == "Attack 2 : Selfish mining":
@@ -121,6 +218,7 @@ if simulation == "Attack 2 : Selfish mining":
     st.pyplot(fig=plt)
 
 
+
 if simulation == "Attack 3 : Double spending":
 
     # ====== SIDEBAR ZONE
@@ -146,18 +244,3 @@ if simulation == "Attack 3 : Double spending":
     ax.legend()
 
     st.pyplot(fig=plt)
-
-
-
-# """
-# ___
-# markdown :
-# # Header
-# ## Subheader
-# ___
-# """
-
-# list = [1, 2, 3]
-# st.write(list)
-
-# st.image('./output.png')
