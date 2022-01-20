@@ -166,15 +166,28 @@ if simulation == "Attack 1 : One plus two":
     power of this miner within the network. Thus the probability *p=q-1* refers to the other shares of the network, 
     the honest miners.
 
-    (Describe what's under)
+    In the following table M is the probability that such a block sequence occurs, 
+    R and H are the coefficients respectively associated with the attacker and the honest miner 
+    for the expectation computation.
 
-    |     | R | H | M     | Description |
-    |-----|---|---|-------|-------------|
-    | B   | 0 | 1 | p     |             |
-    | AAA | 3 | 3 | q^3   |             |
-    | AAB | 2 | 2 | p*q^2 |             |
-    | ABA | 2 | 2 | p*q^2 |             |
-    | ABB | 0 | 2 | p^2*q |             |
+    | Block sequence | R | H | M       | Description                                                                               |
+    |----------------|---|---|---------|-------------------------------------------------------------------------------------------|
+    | B              | 0 | 1 | p       | Honest miner mined first, the attack cannot be performed.                                 |
+    | AAA            | 3 | 3 | q^3     | 1 + 2 successfull.                                                                        |
+    | AAB            | 2 | 2 | p*(q^2) | Attacker got 2 blocks and is ahead of only one, he pushes this two before being caught up.|
+    | ABA            | 2 | 2 | p*(q^2) | Attacker got 2 blocks and is ahead of only one, he pushes this two before being caught up.|
+    | ABB            | 0 | 2 | (p^2)*q | Attacker lost his advance and the first block secretly mined cannot be pushed anymore.    |
+    
+    Therefore the expected values are : 
+
+    * E[R] = 3(q^3) + 4p(q^2)
+    * E[H] = p + 3(q^3) + 4p(q^2) + 2(p^2)q
+
+    And the **return should be E[R]/E[H]**. The return level is heavily reliant on the probability p, 
+    i. e., the hashrate share of the attacker.
+
+    By running a simulation you can see graphically at what level this strategy is profitable, 
+    you can display the theoretical result next to it.
     """
 
     plt.title('One plus two attack profitability')
