@@ -155,10 +155,29 @@ if simulation == "Attack 1 : One plus two":
 
     # ====== MAIN ZONE
 
-    st.subheader('Subheader ?')
-    st.write('Add description...')
-    plt.title('One plus two attack profitability')
+    """
+    Here is the concept of the one plus two attack (Code available *<here>*) :
 
+    The attack starts when the attacker mines a block (block A) and keep it secret, 
+    from that moment he will secretly try to mine two more blocks but keep in mind that if he wants 
+    to publish them all he needs to push more blocks than honest blocks (B) mined.
+
+    We define *q* the probability that the attacker finds a block, *q* is then strongly correlated to the hash 
+    power of this miner within the network. Thus the probability *p=q-1* refers to the other shares of the network, 
+    the honest miners.
+
+    (Describe what's under)
+
+    |     | R | H | M     | Description |
+    |-----|---|---|-------|-------------|
+    | B   | 0 | 1 | p     |             |
+    | AAA | 3 | 3 | q^3   |             |
+    | AAB | 2 | 2 | p*q^2 |             |
+    | ABA | 2 | 2 | p*q^2 |             |
+    | ABB | 0 | 2 | p^2*q |             |
+    """
+
+    plt.title('One plus two attack profitability')
     fig, ax = plt.subplots()
     ax.plot(hash_power_list, hash_power_list, color='blue', label='Honest mining')
     ax.plot(hash_power_list, result_list, color='crimson', label='Attacker mining')

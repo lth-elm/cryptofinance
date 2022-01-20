@@ -48,22 +48,3 @@ def block_simulation(proba):
         
     else: # B..
         return 0, 1
-
-
-
-
-
-# n = 10000
-# hash_power_list = np.arange(0.30,0.49,0.01)
-# result_list, theoretical_list = att_one_plus_two(n, hash_power_list)
-
-
-# fig, ax = plt.subplots()
-# ax.plot(hash_power_list, hash_power_list, color='black')
-# ax.plot(hash_power_list, result_list, color='blue')
-# ax.plot(hash_power_list, theoretical_list, color='green')
-
-# ax.set_xlabel("Hash Power")
-# ax.set_ylabel("Profitability")
-
-# plt.show()
