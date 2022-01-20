@@ -40,10 +40,14 @@ if simulation == "Home":
     and the **hash power** needed to achieve it.
 
     The results are from research papers by teacher and researcher Cyril Grunspan (Da Vinci Research Center) 
-    and Ricardo Perez-Marco : *<links>*
+    and Ricardo Perez-Marco : *https://github.com/lth-elm/cryptofinance/tree/main/papers*
 
-    The understanding of this paper and its visual presentation in this website was conducted by *<Laith El Mershati>*, 
+    The understanding of this paper and its visual presentation in this website was conducted by [Laith El Mershati](https://www.linkedin.com/in/laith-el-mershati/), 
     student of the **Enginnering School De Vinci Paris** (ESILV), and is part of a school project.
+
+    ___
+
+    [Website github repository link](https://github.com/lth-elm/cryptofinance)
     """
 
 
@@ -56,7 +60,7 @@ if simulation == "Proof of Work":
     We are going to conduct a proof of work **mining** where we want to see how the **average time** needed to 
     find the solution evolves with the **difficulty adjustment**. 
     
-    For that we will be running *<that code>* which from this challenge ```5JskLFx82fGh7eFP3c12XXX``` will add a 
+    For that we will be running [that code](https://github.com/lth-elm/cryptofinance/blob/main/pow/pow.ipynb) which from this challenge ```5JskLFx82fGh7eFP3c12XXX``` will add a 
     generated random nonce and then hash the whole new variable until we the target of *x* 0's at the beginning 
     of the new hash is obtained.
     """
@@ -91,7 +95,7 @@ if simulation == "Proof of Work":
 
     """
     Let's repeat the same task 10 000 times but this time with a target of 3 only, 
-    here is a distribution of the time it took for each execution. (Code at this *<link>*)
+    here is a distribution of the time it took for each execution. (Code at this [link](https://github.com/lth-elm/cryptofinance/blob/main/pow/expow_law.ipynb))
     """
 
     with open('pow/expow_distribution_values.csv', newline='') as f:
@@ -156,11 +160,11 @@ if simulation == "Attack 1 : One plus two":
     # ====== MAIN ZONE
 
     """
-    Here is the concept of the one plus two attack (Code available *<here>*) :
+    Here is the concept of the one plus two attack :
 
     The attack starts when the attacker mines a block (block A) and keep it secret, 
     from that moment he will secretly try to mine two more blocks but keep in mind that if he wants 
-    to publish them all he needs to push more blocks than honest blocks (B) mined.
+    to broadcast them all he needs to push more blocks than honest blocks (B) mined.
 
     We define *q* the probability that the attacker finds a block, *q* is then strongly correlated to the hash 
     power of this miner within the network. Thus the probability *p=q-1* refers to the other shares of the network, 
@@ -202,6 +206,8 @@ if simulation == "Attack 1 : One plus two":
 
     st.pyplot(fig=plt)
 
+    st.write("*Code available [here](https://github.com/lth-elm/cryptofinance/blob/main/att_one_plus_two.py)*")
+
 
 
 if simulation == "Attack 2 : Selfish mining":
@@ -230,8 +236,24 @@ if simulation == "Attack 2 : Selfish mining":
 
     # ====== MAIN ZONE
 
-    st.subheader('Subheader ?')
-    st.write('Add description...')
+    """
+    The selfish miner continues to mine the next blocks but doesn't broadcast it maintaining his lead, therefore, 
+    there would be another fork in the hands of the selfish miner. When the network is about to catch up with 
+    the selfish miner, it is at that moment when he releases his secretly mined blocks into the blockchain.
+    
+    The rest of the network will consequently adopts this block solutions since the chain and proof of work is 
+    longer and more difficult. Additionally the selfish miner get to claim all of his block rewards.
+
+    The network connectivity is something important to take into account in this strategy. Indeed, if the selfish 
+    miner ever get catched up in the number of blocks he will need to broadcast his fork blocks right away and hope
+    he will get chosen by the network, for that he will need to have a better connectivity than the miner who published 
+    the last honest block.
+
+    * The parameters **inputs** for this simulation are **the number of cycle attack** and 
+    **the connectivity with the network (%)**.
+
+    * The **bitcoin price** and the **block rewards** will affect the profit made by the selfish miner. 
+    """
 
     fig, ax = plt.subplots()
     plt.title('Selfish mining expected profit')
@@ -248,6 +270,8 @@ if simulation == "Attack 2 : Selfish mining":
     ax2.set_ylabel('Profit expectancy (Million $)')
 
     st.pyplot(fig=plt)
+
+    st.write("*Code available [here](https://github.com/lth-elm/cryptofinance/blob/main/selfish_mining.py)*")
 
 
 
