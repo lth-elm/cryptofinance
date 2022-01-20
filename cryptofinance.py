@@ -238,8 +238,8 @@ if simulation == "Attack 2 : Selfish mining":
 
     """
     The selfish miner continues to mine the next blocks but doesn't broadcast it maintaining his lead, therefore, 
-    there would be another fork in the hands of the selfish miner. When the network is about to catch up with 
-    the selfish miner, it is at that moment when he releases his secretly mined blocks into the blockchain.
+    there would be another fork in his hands. When the network is about to catch up with the selfish miner, 
+    it is at that moment when he releases his secretly mined blocks into the blockchain.
     
     The rest of the network will consequently adopts this block solutions since the chain and proof of work is 
     longer and more difficult. Additionally the selfish miner get to claim all of his block rewards.
@@ -249,7 +249,7 @@ if simulation == "Attack 2 : Selfish mining":
     he will get chosen by the network, for that he will need to have a better connectivity than the miner who published 
     the last honest block.
 
-    * The parameters **inputs** for this simulation are **the number of cycle attack** and 
+    * The parameters inputs for this simulation are **the number of cycle attack** and 
     **the connectivity with the network (%)**.
 
     * The **bitcoin price** and the **block rewards** will affect the profit made by the selfish miner. 
@@ -281,15 +281,41 @@ if simulation == "Attack 3 : Double spending":
 
     attempts = st.sidebar.slider('Number of attempts', min_value=100, max_value=10000, value=5000, step=100)
     z = st.sidebar.slider('Z confirmation blocks', min_value=2, max_value=20, value=6, step=1)
-    limit = st.sidebar.slider('Difference of blocks for giving up attack', min_value=1, max_value=50, value=6, step=1)
+    limit = st.sidebar.slider('A difference of blocks before giving up attack', min_value=1, max_value=50, value=6, step=1)
 
     hashrates, probability_of_success = double_spending(attempts, z, limit)
     probability_of_success = list(map(lambda x: x*100, probability_of_success)) # %
 
     # ====== MAIN ZONE
 
-    st.subheader('Subheader ?')
-    st.write('Add description...')
+    """
+    Here is how the double spending attack works :
+
+        1. Start of the attack cycle.
+
+        2. The attacker mines honestly on top of the official blockchain *k* blocks 
+        with a transaction that returns the payment funds to an address he controls.
+
+        3. When he succeeds in pre-mining *k* blocks lading the honest miners, 
+        he keeps his fork secret, sends the purchasing transaction to the vendor, 
+        and keeps up mining on his secret fork.
+
+        4. If the delay with the official blockchain gets larger than *A* then the 
+        attacker gives-up and the double spend attack fails.
+
+        5. If the secret fork of the attacker gets longer than the official blockchain 
+        that has added *Z* confrmations to the vendor transaction, then the attacker 
+        releases his fork and the double spend is successful.
+
+        6. End of the attack cycle.
+
+    If successful, the attacker has won all the published blocks rewards plus his double spend, otherwise 0.
+
+    Our simulation will only display the probability of success of such an attack not the gains made from it.
+    
+    * Therefore the parameters inputs for this simulation are **the number of attempts**, the number ***Z*** of 
+    **blocks confirmation** and ***A*** the **difference of blocks before giving up the attack**.
+    """
 
     fig, ax = plt.subplots()
     plt.title('Double spending chance of success')
@@ -300,3 +326,5 @@ if simulation == "Attack 3 : Double spending":
     ax.legend()
 
     st.pyplot(fig=plt)
+
+    st.write("*Code available [here](https://github.com/lth-elm/cryptofinance/blob/main/double_spending.py)*")
