@@ -311,7 +311,7 @@ if simulation == "Attack 3 : Double spending":
 
     If successful, the attacker has won all the published blocks rewards plus his double spend, otherwise 0.
 
-    Our simulation will only display the probability of success of such an attack not the gains made from it.
+    Our simulation will only display the **probability of success** of such an attack not the gains made from it.
     
     * Therefore the parameters inputs for this simulation are **the number of attempts**, the number ***Z*** of 
     **blocks confirmation** and ***A*** the **difference of blocks before giving up the attack**.
